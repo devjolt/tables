@@ -287,16 +287,23 @@ function markQuestion(){
         
     // if incorrect answer
     }else{
-        incorrectAnswers+=1
-        if(incorrectAnswers==1){
+        if (tableMode!='t'){
+            incorrectAnswers+=1
+            if(incorrectAnswers==1){
+                
+            }
+            document.getElementById('try-again').style.display = 'block'
+            document.querySelectorAll('input')[0].value = ''
             
-        }
-        document.getElementById('try-again').style.display = 'block'
-        document.querySelectorAll('input')[0].value = ''
-        
-        if(incorrectAnswers >= 3){
-            document.getElementById('try-again').style.display = 'none'
-            document.getElementById('hide').style.display = 'block'
+            if(incorrectAnswers >= 3){
+                document.getElementById('try-again').style.display = 'none'
+                document.getElementById('hide').style.display = 'block'
+            }
+        }else{
+            updateCorrectTotalCookies()//increment cookies
+            updateTime()
+            processModuleCookieData('incorrect')
+            window.location.replace('/tables/');
         }
     }
     updateCorrectTotalCookies()//increment cookies
