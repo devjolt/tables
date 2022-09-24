@@ -271,10 +271,11 @@ function markQuestion(){
                 addStick()
             }
             // add a glowstick to the glowstick cookie
-            if (tableMode=='r'){
+            if (tableMode=='s'){
+                window.location.replace('/tables/'+ "{{table}}"); 
+                
+            } else{
                 window.location.replace('/tables/');
-            } else if (tableMode=='s'){
-                window.location.replace('/tables/'+ "{{table}}");    
             }
         }else{
             if (tableMode!='t'){
