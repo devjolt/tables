@@ -19,6 +19,7 @@
                 color:white;
                 text-align:center;
                 font-family: 'Comic Neue', cursive;  
+                caret-color: transparent;
             }
             html{
                 height:100;
@@ -43,20 +44,20 @@
                 cursor:pointer;
             }
             .button:hover{
-                color:black;
+                /*color:black;
                 background:white;
                 border-style:solid;
                 border-color: white;
-                border-radius:4px;
-                transition: 0.2s;
+                border-radius:4px;*/
+                animation: rainbow-glow 1.5s ease-in-out infinite alternate;
+            }
+            .active{
+                animation: glow 1s ease-in-out infinite alternate;
             }
 
             .specific-dropdown-content{
                 display: none;
-                border-style:solid;
-                border-radius: 4px;
                 position: absolute;
-                background-color: white;
                 min-width: 160px;
                 box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
                 z-index: 1;
@@ -64,18 +65,18 @@
 
             .specific:hover .specific-dropdown-content {
                 display: grid;
-                transition: 0.2s;
-           
             }
-            .specific-item{
+            .specific-dropdown-content.specific-item{
                 background-color: white;
                 color:black;
                 text-decoration: none;
+                
             } 
-            .specific-item:hover{
+            .specific-dropdown-content.specific-item:hover{
                 background-color: black;
                 color:white;
                 text-decoration: none;
+                
             } 
             .content-div{
                 display: flex;
@@ -104,6 +105,7 @@
                 border-radius:4px;
                 font-size: 5rem;
                 max-width:5ch;
+                caret-color: white;
             }
             input:focus{
                 border-style:none;
@@ -157,7 +159,7 @@
                     0 0 90px 20px rgb(153, 0, 153); /* middle magenta */
                 border-color:fuchsia;
                 border-width:5px;
-                animation: fuchsia-glow 1s ease-in-out infinite alternate;
+                
             }
 
             .uncracked{
@@ -179,12 +181,21 @@
                 transition:0.25s;
             }
 
-            @-webkit-keyframes fuchsia-glow {
+            @-webkit-keyframes glow {
                 from {
-                    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px fuchsia, 0 0 40px fuchsia, 0 0 50px fuchsia, 0 0 60px fuchsia, 0 0 70px fuchsia;
+                    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px cyan, 0 0 40px cyan, 0 0 50px fuchsia, 0 0 60px fuchsia, 0 0 70px fuchsia;
                 }
                 to {
-                    text-shadow: 0 0 20px #fff, 0 0 30px fuchsia, 0 0 40px fuchsia, 0 0 50px fuchsia, 0 0 60px fuchsia, 0 0 70px fuchsia, 0 0 80px fuchsia;
+                    text-shadow: 0 0 20px #fff, 0 0 30px cyan, 0 0 40px cyan, 0 0 50px cyan, 0 0 60px fuchsia, 0 0 70px fuchsia, 0 0 80px fuchsia;
+                }
+            }
+
+            @-webkit-keyframes rainbow-glow {
+                from {
+                    text-shadow: 0 0 10px white 0 0 20px white, 0 0 30px rgb(255, 134, 255), 0 0 40px fuchsia, 0 0 50px fuchsia, 0 0 60px cyan, 0 0 70px plum;
+                }
+                to {
+                    text-shadow: 0 0 20px white, 0 0 30px white, 0 0 40px rgb(250, 123, 250), 0 0 50px fuchsia, 0 0 60px fuchsia, 0 0 70px cyan, 0 0 80px plum;
                 }
             }
 
@@ -207,8 +218,9 @@ function setTableModeCookie(mode, table=null){
     <body>
         <div class = 'main'>
             <div class = 'menu-grid'>
-                <div class= 'button' title="Random times tables questions with glowsticks!" onclick="setTableModeCookie('r',null)">Random</div>
-                <div class= 'specific button' title="Your choice of times tables with glowsticks.">You Choose
+                <div id="random-button" class= 'button' title="Random times tables questions with glowsticks!" onclick="setTableModeCookie('r',null)">Random</div>
+                <div id="test-button" class= 'button' title="Serious times tables practice. Without glowsticks." onclick="setTableModeCookie('t',null)">Test</div>
+                <div id="specific-button" class= 'button specific' title="Your choice of times tables with glowsticks.">You Choose
                     <div class="specific-dropdown-content">
                         <div class="specific-item" onclick="window.alert('1 x table? Really?')">1 x table</div>
                         <div class="specific-item" onclick="setTableModeCookie('s',2)">2 x table</div>
@@ -224,7 +236,7 @@ function setTableModeCookie(mode, table=null){
                         <div class="specific-item" onclick="setTableModeCookie('s',12)">12 x table</div>
                     </div>
                 </div>
-                <div class= 'button' title="Serious times tables practice. Without glowsticks." onclick="setTableModeCookie('t',null)">Test</div>
+                
                 <!--<div class= 'button' onclick="getReport()">Report</div>-->
                 <div class= 'button' title='Make room for more glowsticks' onclick="clearGlowsticks()">Clear Glowsticks</div>
             </div>

@@ -32,7 +32,7 @@ if (getCookie("tableMode") != ''){//if cookie exists
     var modeCookieArray = ['r',null]; // with random mode. This should only happen the first time the page is loaded
 }
 var tableMode = modeCookieArray[0]
-// console.log('tableMode:',tableMode)
+console.log('tableMode:',tableMode)
 
 if (getCookie("glowstick") != ''){//if cookie exists
     var glowstickDictStr = getCookie('glowstick'); // get the string of the dictionary
@@ -65,13 +65,13 @@ if (tableMode!='t'){
             newGlowStick.style.top = topPercentage+"%"
             newGlowStick.style.left = leftPercentage+"%"
             newGlowStick.style.transform = "rotate("+rotateDegrees+"deg)"
+            newGlowStick.style.caretColor= 'transparent'
             console.log(newGlowStick)
             displayBoard.appendChild(newGlowStick)
             
         }    
     }
 }
-
 
 function crack(){
     // go to dict using this.id, and add color
@@ -88,8 +88,6 @@ function crack(){
     }
     
 }
-
-
 
 // glowstickDict = {1:["u", 50, 50, 180], 2:["r", 20, 20, 90]}
 // console.log(glowstickDict)
@@ -217,29 +215,35 @@ get coookie data at the top of the page
 generate random numbers
 bit of a one page
 
+page to fade in and out between questions
 
-Four screens:
-
-test
-set test flag on modecookie
-redirect to test page
-
-submit
-get modecookie flag
-
-reports
-
-question fade between each screen?
-
-if small screen, submit button
 */
-
+if(tableMode=='s'){
+    document.getElementById('specific-button').classList.add('active')
+    document.getElementById('random-button').classList='button'
+    document.getElementById('test-button').classList='button'
+}else if(tableMode=='r'){
+    document.getElementById('random-button').classList.add('active')
+    document.getElementById('test-button').classList='button'
+    document.getElementById('specific-button').classList='button specific'
+}else if(mode='t'){       
+    document.getElementById('test-button').classList.add('active')
+    document.getElementById('random-button').classList='button'
+    document.getElementById('specific-button').classList='button specific'
+}
+ 
 function setTableModeCookie(mode, table=null){
     // r = random, s = specific, t = test
-    document.cookie = "tableMode="+mode+','+table
+    
     if(mode=='s'){
-        window.location.replace('/tables/'+ table); 
+        document.cookie = "tableMode=s,"+table
+        window.location.replace('/tables/'+ table);
     }else{
+        if(mode=='r'){
+            document.cookie = "tableMode=r,"+table
+        }else if(mode=='t'){
+            document.cookie = "tableMode=t,"+table
+        }
         window.location.replace('/tables/');
     }
 }
@@ -362,6 +366,18 @@ function reset(){
     document.cookie = "time=0";
     document.cookie = "total=0";
     document.cookie = "correct=0";
+    
+    document.cookie = "2=";
+    document.cookie = "3=";
+    document.cookie = "4=";
+    document.cookie = "5=";
+    document.cookie = "6=";
+    document.cookie = "7=";
+    document.cookie = "8=";
+    document.cookie = "9=";
+    document.cookie = "10=";
+    document.cookie = "11=";
+    document.cookie = "12=";
     location.reload();
 }
 
@@ -503,10 +519,6 @@ function processModuleCookieData(correctIncorrect){
     var cValue = moduleTotal.toString() + '$' + moduleCorrect.toString() + '$' + incorrectQuestions;
     setCookie(moduleName, cValue);  
 }
-
-
-
-
 
 </script>
 {% endblock %}
