@@ -22,25 +22,29 @@
                 caret-color: transparent;
             }
             html{
-                height:100;
             }
             body{
                 
             }
             .main{
-                height:100vh;
+                height:98%;
             }
             .menu-grid{
                 display:grid;
 				grid-template-columns: auto auto auto auto;
                 font-size: 2rem;
+                margin-top: 2%;
+                margin-left:5%;
+                margin-right:5%;
             }
 
             .button{
                 border-style:solid;
                 border-color: black;
+                border-radius: 4px;
                 margin-left:3%;
                 margin-right:3%;
+
                 cursor:pointer;
             }
             .button:hover{
@@ -49,7 +53,8 @@
                 border-style:solid;
                 border-color: white;
                 border-radius:4px;*/
-                animation: rainbow-glow 1.5s ease-in-out infinite alternate;
+                box-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px rgb(255, 134, 255), 0 0 40px fuchsia, 0 0 50px fuchsia, 0 0 60px cyan, 0 0 70px plum;
+                transition: 1s;
             }
             .active{
                 animation: glow 1s ease-in-out infinite alternate;
@@ -57,7 +62,7 @@
 
             .specific-dropdown-content{
                 display: none;
-                position: absolute;
+                position: fixed;
                 min-width: 160px;
                 box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
                 z-index: 1;
@@ -91,11 +96,12 @@
 				width: max-content;
                 text-align: center;
                 margin-bottom: 5%;
-                width:90vw;
+                width:65vw;
             }
             .question-div{
                 height:min-content;
                 font-size: 2rem;
+                z-index:10;
             }
             input{
                 background:black;
@@ -110,6 +116,15 @@
             input:focus{
                 border-style:none;
                 border-color:black;
+            }
+            .submit-button-wrapper{
+                
+            }
+            .submit{
+                width: 40ch;
+                margin-left:auto;
+                margin-right:auto;
+                padding:5px;
             }
             .yellow{
                 background:yellow;
