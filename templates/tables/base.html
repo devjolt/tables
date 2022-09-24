@@ -207,8 +207,8 @@ function setTableModeCookie(mode, table=null){
     <body>
         <div class = 'main'>
             <div class = 'menu-grid'>
-                <div class= 'button' onclick="setTableModeCookie('r',null)">Random</div>
-                <div class= 'specific button'>You Choose
+                <div class= 'button' title="Random times tables questions with glowsticks!" onclick="setTableModeCookie('r',null)">Random</div>
+                <div class= 'specific button' title="Your choice of times tables with glowsticks.">You Choose
                     <div class="specific-dropdown-content">
                         <div class="specific-item" onclick="window.alert('1 x table? Really?')">1 x table</div>
                         <div class="specific-item" onclick="setTableModeCookie('s',2)">2 x table</div>
@@ -224,9 +224,9 @@ function setTableModeCookie(mode, table=null){
                         <div class="specific-item" onclick="setTableModeCookie('s',12)">12 x table</div>
                     </div>
                 </div>
-                <div class= 'button' onclick="setTableModeCookie('t',null)">Test</div>
+                <div class= 'button' title="Serious times tables practice. Without glowsticks." onclick="setTableModeCookie('t',null)">Test</div>
                 <!--<div class= 'button' onclick="getReport()">Report</div>-->
-                <div class= 'button' onclick="clearGlowsticks()">Clear Glowsticks</div>
+                <div class= 'button' title='Make room for more glowsticks' onclick="clearGlowsticks()">Clear Glowsticks</div>
             </div>
             <div class="content-div">
                 {% block content %}
