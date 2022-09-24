@@ -1,0 +1,504 @@
+{% extends 'tables/base.html' %}
+
+{% block content %}
+
+<script>
+//Cookies dealing with time
+console.log(getCookie("time"));
+var start = Date.now()
+
+if (getCookie("time") != ''){//if cookie for timing exists
+    var sec = Number(getCookie('time'));//use that as value from which to count up
+} else {
+    var sec = 0;//start from zero
+}
+
+//Cookies dealing with scores
+if (getCookie("correct") != ''){//if cookie exists
+    var correct = Number(getCookie('correct'));//use that as value from which to count up
+} else {
+    var correct = 0;//start from zero
+}
+
+if (getCookie("total") != ''){//if cookie exists
+    var total = Number(getCookie('total'));//use that as value from which to count up
+} else {
+    var total = 0;//start from zero
+}
+
+if (getCookie("tableMode") != ''){//if cookie exists
+    var modeCookieArray = getCookie('tableMode').split(',');//use that as value from which to count up
+} else {
+    var modeCookieArray = ['r',null]; // with random mode. This should only happen the first time the page is loaded
+}
+var tableMode = modeCookieArray[0]
+// console.log('tableMode:',tableMode)
+
+if (getCookie("glowstick") != ''){//if cookie exists
+    var glowstickDictStr = getCookie('glowstick'); // get the string of the dictionary
+    glowstickDict = JSON.parse(glowstickDictStr) // convert to a dictionary
+} else {
+    glowstickDict = {}
+}
+console.log(Object.keys(glowstickDict).length,glowstickDict) // show length of dictionary and dictionary itself
+
+if (tableMode!='t'){
+    
+    if(Object.keys(glowstickDict).length == 0){
+        var highestGlowstickId = 0
+    }else{
+        // for each glowstick in dictionary
+        var displayBoard = document.getElementsByTagName('body')[0]
+        
+        for (const glowstickId in Object.keys(glowstickDict)){
+            var highestGlowstickId = parseInt(glowstickId)+1
+            var glowStickArray = glowstickDict[highestGlowstickId]
+            var color = glowStickArray[0]
+            var topPercentage = glowStickArray[1]
+            var leftPercentage = glowStickArray[2]
+            var rotateDegrees = glowStickArray[3]
+            var newGlowStick = document.createElement('div')
+            newGlowStick.id = highestGlowstickId
+            newGlowStick.className = color+' glowstick'
+            newGlowStick.onclick = crack
+            newGlowStick.style.position = 'absolute'
+            newGlowStick.style.top = topPercentage+"%"
+            newGlowStick.style.left = leftPercentage+"%"
+            newGlowStick.style.transform = "rotate("+rotateDegrees+"deg)"
+            console.log(newGlowStick)
+            displayBoard.appendChild(newGlowStick)
+            
+        }    
+    }
+}
+
+
+function crack(){
+    // go to dict using this.id, and add color
+    colors = [
+        "yellow","red","orange","green","blue","pink"
+    ]
+    thisGlowstickArray = glowstickDict[this.id] // get existing array belonging to this glowstick
+    if (thisGlowstickArray[0]=='uncracked'){
+        var color = colors[Math.floor(Math.random()*colors.length)] // choose color
+    
+        glowstickDict[this.id] = [color,thisGlowstickArray[1],thisGlowstickArray[2],thisGlowstickArray[3]] // create new array with color
+        var thisGlowStick = document.getElementById(this.id) // get glowstick element
+        thisGlowStick.classList = 'glowstick '+ color // add color to glowstick class
+    }
+    
+}
+
+
+
+// glowstickDict = {1:["u", 50, 50, 180], 2:["r", 20, 20, 90]}
+// console.log(glowstickDict)
+// glowstickDictStr = JSON.stringify(glowstickDict)
+// console.log(glowstickDictStr)
+// console.log(glowstickDict)
+
+var percentage = correct / total * 100;
+var time = sec;
+
+//var sec = 0;
+function pad ( val ) { return val > 9 ? val : "0" + val; }
+    setInterval( function(){
+        document.getElementById("seconds").innerHTML=pad(++sec%60);
+        document.getElementById("minutes").innerHTML=pad(parseInt(sec/60,10));
+    }, 1000);
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+    // IF DONE COMPLETELY WITH JS:
+
+    // how could we work out if a question is the first in a session?
+    // cookie flag
+    // by default, session will be random
+    // if first question in a session, generate new question
+
+
+    // IF DONE SERVERSIDE WITH PYTHON:
+
+    // OR store a record of all glowsticks in
+    // done by: position coordinates, rotation, colour, cracked
+    // for item in cookie, blit try this first
+    // allows you to continue from a previous streak...
+    // seperate reset button for glowsticks?
+
+</script>
+
+<div class = ''>
+    <div class = 'dash-div'>
+        <div class='stats-grid'>
+            <div class='reset button' onclick=reset()>Reset stats</div>
+            <div class = 'timer'>
+                <span id="minutes"></span>:<span id="seconds"></span>
+            </div>
+            <div class='stats-item'>
+                <div class = 'ratio'>
+                    <span id="correct"></span>/<span id="total"></span> correct
+                </div>
+            </div>
+            <div class='stats-item'>
+                <div class = 'percent'>
+                    <span id="percent"></span> %
+                </div>
+            </div>
+            <div class='stats-item'>
+                <div class = 'speed'>
+                    <span id="speed"></span> seconds / mark
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="question-div">
+                        
+        <h1>{{question}}</h1>
+        <br>
+        <input type="text" id="answer" name="answer" autocomplete="off" autofocus><br><br>
+
+        <h1 id='try-again' style="display:none">Try again!</h1>
+        <h1 id='hide' style="display:none">Correct answer: {{answer}}</h1>
+                
+    </div>
+
+    <div class='button-div'>
+        <div class='submit-button-wrapper'>
+            <div class='submit button' onclick=mark_question()>Submit</div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+function randomIntFromInterval(min, max) { // min and max included 
+    return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+function generate_random_question_and_answer(){
+    var number1 = randomIntFromInterval(2, 12);
+    var number2 = randomIntFromInterval(2, 12);
+    var question = number1+' x '+number2;
+    var answer =  number1*number2
+    return {'question':question, 'answer':answer}
+}
+
+function generate_specific_question_and_answer(number1){
+    var number2 = randomIntFromInterval(2, 12);
+    var question = number1+' x '+number2;
+    var answer =  number1*number2
+    return {'question':question, 'answer':answer}
+}
+
+    /*
+Note:
+With current architecture, it will be impossible (or very difficult) to have the glow sticks remain on the screen between questions
+positions would have to be generated and remembered between clicks with a cookie
+
+If this happenned with 100% js, this would not be a problem
+Consider how this could be done with JS?
+
+logic to generate questions would be simple enough
+get coookie data at the top of the page
+generate random numbers
+bit of a one page
+
+
+Four screens:
+
+test
+set test flag on modecookie
+redirect to test page
+
+submit
+get modecookie flag
+
+reports
+
+question fade between each screen?
+
+if small screen, submit button
+*/
+
+function setTableModeCookie(mode, table=null){
+    // r = random, s = specific, t = test
+    document.cookie = "tableMode="+mode+','+table
+    if(mode=='s'){
+        window.location.replace('/tables/'+ table); 
+    }else{
+        window.location.replace('/tables/');
+    }
+}
+
+var answer = "{{answer}}"
+var table = "{{table}}"
+var incorrectAnswers = 0
+
+document.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        console.log('given answer:', answer)
+        console.log('correct answer:', document.querySelectorAll('input')[0].value)
+        markQuestion()
+        
+    }
+});
+
+function markQuestion(){
+    // if correct answer
+    console.log('table mode in markQuestion', tableMode)
+    if(incorrectAnswers == 0){
+        total+=1
+    }
+    if (answer==document.querySelectorAll('input')[0].value){
+        if(incorrectAnswers == 0){
+            correct+=1
+            processModuleCookieData('correct')
+            if (tableMode!='t'){
+                addStick()
+            }
+            // add a glowstick to the glowstick cookie
+            if (tableMode=='r'){
+                window.location.replace('/tables/');
+            } else if (tableMode=='s'){
+                window.location.replace('/tables/'+ "{{table}}");    
+            }
+        }else{
+            if (tableMode!='t'){
+                window.location.replace('/tables/'+ "{{table}}");
+            }else{
+                window.location.replace('/tables/');
+            }
+        }
+        
+    // if incorrect answer
+    }else{
+        incorrectAnswers+=1
+        if(incorrectAnswers==1){
+            
+        }
+        document.getElementById('try-again').style.display = 'block'
+        document.querySelectorAll('input')[0].value = ''
+        
+        if(incorrectAnswers >= 3){
+            document.getElementById('try-again').style.display = 'none'
+            document.getElementById('hide').style.display = 'block'
+        }
+    }
+    updateCorrectTotalCookies()//increment cookies
+    updateTime()
+    updateGlowstickCookie()// update glowstickCookie
+    processModuleCookieData('incorrect')
+}
+
+//populate dash
+try{
+    document.getElementById('correct').innerHTML = correct.toString();
+} catch(err){
+    document.getElementById('correct').innerHTML = '0';
+}
+try{
+    document.getElementById('total').innerHTML = total.toString();
+} catch(err){
+    document.getElementById('total').innerHTML = '0';
+}
+try{
+    document.getElementById('speed').innerHTML = Math.round((time / correct)*10)/10;
+} catch(err){
+    document.getElementById('speed').innerHTML = '0';
+}
+try{
+    document.getElementById('percent').innerHTML = Math.round(correct/total*100)
+} catch(err){
+    document.getElementById('percent').innerHTML = '0';
+}
+
+function updateCorrectTotalCookies(){
+    document.cookie = "total=" + total.toString();
+    document.cookie = "correct=" + correct.toString();
+}
+
+function updateDash(){
+    document.getElementById('correct').innerHTML = correct.toString();
+    document.getElementById('total').innerHTML = total.toString();
+    document.getElementById('percent').innerHTML = Math.round(correct/total*100);
+    time = sec;
+    document.getElementById('speed').innerHTML = Math.round((time / correct)*10)/10;
+}
+
+function revealNextButtonAndHelps(){
+    document.getElementsByClassName('help-links')[0].style.display = "block";
+    document.getElementsByClassName('next-question-wrapper')[0].style.display = "block";
+}
+
+function reset(){
+    document.getElementById('seconds').innerHTML = 0;
+    document.getElementById('minutes').innerHTML = 0;
+    document.getElementById('correct').innerHTML = 0;
+    document.getElementById('total').innerHTML = 0;
+    document.getElementById('speed').innerHTML = 0;
+
+    document.cookie = "time=0";
+    document.cookie = "total=0";
+    document.cookie = "correct=0";
+    location.reload();
+}
+
+function updateTime(){
+    //set timer cookie with current time
+    console.log('Just an int...');
+    var end = Date.now();
+    var total = Math.floor((end-start)/1000);
+    var str_sec = sec.toString();
+    var cookie_str = "time=" + str_sec;
+    document.cookie = cookie_str;
+    }
+
+//sets a cookie with a given name and value
+function setCookie (cName, cValue){//sets a cookie
+    document.cookie = `${cName}=${cValue};path=/`;
+}
+
+//either returns the value of a cookie or "nope" if cookies doesn't exist
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "nope";
+}
+
+// increases value of any given cookie, default of 1
+function incrementCookie(cName, to_add = 1){
+    var value = parseInt(getCookie(cName)) + to_add;
+    setCookie(cName, value);
+    console.log('Incremented');
+    console.log(cName);
+}
+
+
+// add glowsticks to the screen one by one, each one is has an id of 0->...
+// use glowStickCookie str to do this
+// create dict from glowstick cookie str?
+// if u = uncracked
+// when cracked, get id number
+// randomly choose color
+// change class from uncracked to color
+// cookie str = "{1:[color, x val, y val, rotation val], 2:[color, x val, y val, rotation val], "
+// 
+
+function addStick(){
+    // create position
+    var topPercentage = randomIntFromInterval(10, 75);
+    var leftPercentage = randomIntFromInterval(10, 75);
+    var rotateDegrees = randomIntFromInterval(1, 179);
+    // create rotation
+    // add glowstick to glowstick dict using highest glowstick number
+    highestGlowstickId+=1
+    glowstickDict[highestGlowstickId] = ['uncracked', topPercentage, leftPercentage, rotateDegrees]
+
+    var displayBoard = document.getElementsByClassName('main')[0]
+    var newGlowStick = document.createElement('div')
+    newGlowStick.id = highestGlowstickId
+    newGlowStick.className = 'uncracked glowstick'
+    newGlowStick.onclick = crack
+    newGlowStick.top = topPercentage+"%;"
+    newGlowStick.left = leftPercentage+"%;"
+    newGlowStick.transform = "rotate("+rotateDegrees+"deg);"
+    displayBoard.appendChild(newGlowStick)
+    console.log(glowstickDict)
+}
+
+function updateGlowstickCookie(){
+    document.cookie = "glowstick="+JSON.stringify(glowstickDict)
+}
+
+function crack(){
+    // go to dict using this.id, and add color
+    colors = [
+        "yellow","red","orange","green",
+        "blue","pink","uncracked"
+    ]
+    thisGlowstickArray = glowstickDict[this.id] // get existing array belonging to this glowstick
+    if (thisGlowstickArray[0]!='uncracked'){
+        var color = colors[Math.floor(Math.random()*colors.length)] // choose color
+        
+        glowstickDict[this.id] = [color,thisGlowstickArray[1],thisGlowstickArray[2],thisGlowstickArray[3]] // create new array with color
+        var thisGlowStick = document.getElementById(this.id) // get glowstick element
+        thisGlowStick.classList = 'glowstick '+ color // add color to glowstick class
+    }
+    
+}
+
+
+function clearGlowsticks(){
+    document.cookie = "glowstick="
+    location.reload();
+}
+
+function getReport(){
+    window.location.replace('/tables/report/');
+}
+
+
+function processModuleCookieData(correctIncorrect){
+
+    var moduleName = "{{table}}"
+
+    if (getCookie(moduleName) != 'nope'){//if cookie exists
+        var moduleCookieData = getCookie(moduleName).split("$");
+        var moduleTotal = parseInt(moduleCookieData[0]);
+        var moduleCorrect = parseInt(moduleCookieData[1]);
+        var incorrectQuestions = moduleCookieData[2];
+        if (typeof incorrectQuestions == 'undefined'){
+            incorrectQuestions='';
+        }
+        
+    } else {
+        var moduleTotal = 0, moduleCorrect = 0, incorrectQuestions = ''; //start from zero
+    }
+    console.log('incorrectQuestions',incorrectQuestions)
+    moduleTotal+=1;
+    if(correctIncorrect == 'correct'){
+        moduleCorrect+=1;
+    }else if(correctIncorrect == 'incorrect'){
+        var questionDescription = "{{question_description}}";
+        if(incorrectQuestions.slice(0).includes(questionDescription)){
+            
+        }else{
+            incorrectQuestions = incorrectQuestions + questionDescription + '!';
+        }    
+        
+    }
+    console.log(moduleTotal, moduleCorrect, incorrectQuestions)
+    var cValue = moduleTotal.toString() + '$' + moduleCorrect.toString() + '$' + incorrectQuestions;
+    setCookie(moduleName, cValue);  
+}
+
+
+
+
+
+</script>
+{% endblock %}

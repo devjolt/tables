@@ -1,0 +1,53 @@
+{% extends 'tables/base.html' %}
+
+{% block content %}
+
+<script>
+
+
+</script>
+
+
+<div class = 'dash'>
+    <div class='stats-grid'>
+        <div class='reset' onclick=reset()>Reset stats</div>
+        <div class = 'timer'>
+            <span id="minutes"></span>:<span id="seconds"></span>
+        </div>
+        <div class='stats-item'>
+            <div class = 'ratio'>
+                <span id="correct"></span>/<span id="total"></span> correct
+            </div>
+        </div>
+        <div class='stats-item'>
+            <div class = 'percent'>
+                <span id="percent"></span> %
+            </div>
+        </div>
+        <div class='stats-item'>
+            <div class = 'speed'>
+                <span id="speed"></span> seconds / mark
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="question-div">
+                    
+    <h2>{{table}} Times Table</h2>
+    <h1>{{question}}</h1>
+
+    <input type="text" id="answer" name="answer" autofocus><br><br>
+
+    <h1 id='try-again' style="display:none">Try again!</h1>
+    <h1 id='hide' style="display:none">{{answer}}</h1>
+            
+</div>
+
+<div class='button-div'>
+    <div class='submit-button-wrapper'>
+        <div class='submit' onclick=checkboxSubmit()>Submit</div>
+    </div>
+</div>
+
+{% endblock %}

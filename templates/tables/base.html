@@ -1,0 +1,242 @@
+<!--
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name='viewport' content='width=device-width, intitial-scale=1.0'>
+        <title>Go With The Glow Tables</title>
+        <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+
+
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                background:black;
+                color:white;
+                text-align:center;
+                font-family: 'Comic Neue', cursive;  
+            }
+            html{
+                height:100;
+            }
+            body{
+                
+            }
+            .main{
+                height:100vh;
+            }
+            .menu-grid{
+                display:grid;
+				grid-template-columns: auto auto auto auto;
+                font-size: 2rem;
+            }
+
+            .button{
+                border-style:solid;
+                border-color: black;
+                margin-left:3%;
+                margin-right:3%;
+                cursor:pointer;
+            }
+            .button:hover{
+                color:black;
+                background:white;
+                border-style:solid;
+                border-color: white;
+                border-radius:4px;
+                transition: 0.2s;
+            }
+
+            .specific-dropdown-content{
+                display: none;
+                border-style:solid;
+                border-radius: 4px;
+                position: absolute;
+                background-color: white;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+            .specific:hover .specific-dropdown-content {
+                display: grid;
+                transition: 0.2s;
+           
+            }
+            .specific-item{
+                background-color: white;
+                color:black;
+                text-decoration: none;
+            } 
+            .specific-item:hover{
+                background-color: black;
+                color:white;
+                text-decoration: none;
+            } 
+            .content-div{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height:90vh;
+            }
+            .stats-grid{
+                display:grid;
+				grid-template-columns: 20% 20% 20% 20% 20%;
+				height: min-content;
+				width: max-content;
+                text-align: center;
+                margin-bottom: 5%;
+                width:90vw;
+            }
+            .question-div{
+                height:min-content;
+                font-size: 2rem;
+            }
+            input{
+                background:black;
+                color:white;
+                border-style:solid;
+                border-color:white;
+                border-radius:4px;
+                font-size: 5rem;
+                max-width:5ch;
+            }
+            input:focus{
+                border-style:none;
+                border-color:black;
+            }
+            .yellow{
+                background:yellow;
+                box-shadow: 0 0 30px 5px rgb(255, 255, 148),  /* inner white */
+                    0 0 60px 10px yellow,
+                    0 0 90px 20px rgb(173, 173, 0); /* middle magenta */
+                border-color:yellow;
+                border-width:5px;
+            }
+            .red{
+                background: red;
+                box-shadow: 0 0 30px 5px rgb(255, 113, 113),  /* inner white */
+                    0 0 60px 10px red,
+                    0 0 90px 20px rgb(167, 0, 0); /* middle magenta */
+                border-color:red;
+                border-width:5px;
+            }
+            .orange{/**/
+                background: rgb(255, 153, 0);
+                box-shadow: 0 0 30px 5px rgb(255, 198, 91),  /* inner white */
+                    0 0 60px 10px orange,
+                    0 0 90px 20px orange; /* middle magenta */
+                border-color:rgb(255, 153, 0);
+                border-width:5px;
+            }
+            .green{/**/
+                background: lime;
+                box-shadow: 0 0 30px 5px rgb(163, 255, 163),  /* inner white */
+                    0 0 60px 10px lime,
+                    0 0 90px 20px rgb(0, 162, 0); /* middle magenta */
+                border-color:lime;
+                border-width:5px;
+            }
+            .blue{/**/
+                background: cyan;
+                box-shadow: 0 0 30px 5px rgb(156, 253, 253),  /* inner white */
+                    0 0 60px 10px cyan,
+                    0 0 90px 20px rgb(1, 129, 129); /* middle magenta */
+                border-color:cyan;
+                border-width:5px;
+            }
+            .pink{/*ornage on black*/
+                background: fuchsia;
+                box-shadow:
+                    0 0 30px 5px rgb(255, 128, 255),  /* inner white */
+                    0 0 60px 10px fuchsia,
+                    0 0 90px 20px rgb(153, 0, 153); /* middle magenta */
+                border-color:fuchsia;
+                border-width:5px;
+                animation: fuchsia-glow 1s ease-in-out infinite alternate;
+            }
+
+            .uncracked{
+                background: darkslategray;
+                border-color:darkslategray;
+                border-width:5px;
+            }
+            .glowstick{
+                margin:auto;
+                margin-top:50px;
+                margin-bottom:50px;
+                width:400px;
+                border-style:solid;
+                border-radius:10px;
+            }          
+            .glowstick:hover{
+                transform: scale(1.1) translate(0%, 3%);
+                cursor:pointer;
+                transition:0.25s;
+            }
+
+            @-webkit-keyframes fuchsia-glow {
+                from {
+                    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px fuchsia, 0 0 40px fuchsia, 0 0 50px fuchsia, 0 0 60px fuchsia, 0 0 70px fuchsia;
+                }
+                to {
+                    text-shadow: 0 0 20px #fff, 0 0 30px fuchsia, 0 0 40px fuchsia, 0 0 50px fuchsia, 0 0 60px fuchsia, 0 0 70px fuchsia, 0 0 80px fuchsia;
+                }
+            }
+
+        </style>
+    </head>
+
+    <script>
+
+function setTableModeCookie(mode, table=null){
+    // r = random, s = specific, t = test
+    document.cookie = "tableMode="+mode+','+table
+    if(mode=='s'){
+        window.location.replace('/tables/'+ table); 
+    }else{
+        window.location.replace('/tables/');
+    }
+}
+
+    </script>
+    <body>
+        <div class = 'main'>
+            <div class = 'menu-grid'>
+                <div class= 'button' onclick="setTableModeCookie('r',null)">Random</div>
+                <div class= 'specific button'>You Choose
+                    <div class="specific-dropdown-content">
+                        <div class="specific-item" onclick="window.alert('1 x table? Really?')">1 x table</div>
+                        <div class="specific-item" onclick="setTableModeCookie('s',2)">2 x table</div>
+                        <div class="specific-item" onclick="setTableModeCookie('s',3)">3 x table</div>
+                        <div class="specific-item" onclick="setTableModeCookie('s',4)">4 x table</div>
+                        <div class="specific-item" onclick="setTableModeCookie('s',5)">5 x table</div>
+                        <div class="specific-item" onclick="setTableModeCookie('s',6)">6 x table</div>
+                        <div class="specific-item" onclick="setTableModeCookie('s',7)">7 x table</div>
+                        <div class="specific-item" onclick="setTableModeCookie('s',8)">8 x table</div>
+                        <div class="specific-item" onclick="setTableModeCookie('s',9)">9 x table</div>
+                        <div class="specific-item" onclick="setTableModeCookie('s',10)">10 x table</div>
+                        <div class="specific-item" onclick="setTableModeCookie('s',11)">11 x table</div>
+                        <div class="specific-item" onclick="setTableModeCookie('s',12)">12 x table</div>
+                    </div>
+                </div>
+                <div class= 'button' onclick="setTableModeCookie('t',null)">Test</div>
+                <!--<div class= 'button' onclick="getReport()">Report</div>-->
+                <div class= 'button' onclick="clearGlowsticks()">Clear Glowsticks</div>
+            </div>
+            <div class="content-div">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </body>
+</html>
+
+
+<script>
+
+</script>
