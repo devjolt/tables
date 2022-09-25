@@ -39,20 +39,19 @@
             }
 
             .button{
+                background:transparent;
                 border-style:solid;
-                border-color: black;
-                border-radius: 4px;
+                border-color:transparent;
+                
                 margin-left:3%;
                 margin-right:3%;
-
                 cursor:pointer;
             }
             .button:hover{
-                /*color:black;
-                background:white;
+                background:black;
                 border-style:solid;
-                border-color: white;
-                border-radius:4px;*/
+                border-color:transparent;
+                
                 box-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px rgb(255, 134, 255), 0 0 40px fuchsia, 0 0 50px fuchsia, 0 0 60px cyan, 0 0 70px plum;
                 transition: 1s;
             }
@@ -90,6 +89,7 @@
                 height:90vh;
             }
             .stats-grid{
+                background:transparent;
                 display:grid;
 				grid-template-columns: 20% 20% 20% 20% 20%;
 				height: min-content;
@@ -98,6 +98,27 @@
                 margin-bottom: 5%;
                 width:65vw;
             }
+
+            @media only screen and (max-width: 770px) {
+                .stats-grid{
+                    display:grid;
+                    grid-template-columns: auto;
+                    height: min-content;
+                    width: max-content;
+                    text-align: center;
+                    margin-bottom: 5%;
+                    width:65vw;
+                }
+                .menu-grid{
+                    display:grid;
+                    grid-template-columns: auto auto ;
+                    font-size: 2rem;
+                    margin-top: 2%;
+                    margin-left:5%;
+                    margin-right:5%;
+                }
+            }
+
             .question-div{
                 height:min-content;
                 font-size: 2rem;
