@@ -6,7 +6,8 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 
 class RandomTable(TemplateView):
-    template_name = Path('tables/tables_practise.html')
+    #template_name = Path('tables/tables_practise.html')
+    template_name = Path('tables/tables_practise_alternative.html')
     
     def get_context_data(self, **kwargs):
         start = time.time() # Timing how long all this takes. We'll stop this timer later
@@ -33,7 +34,7 @@ def SpecificTableView(request, table):
     context['question'] = question
     context['answer'] = answer
 
-    return render(request, Path('tables/tables_practise.html'), context)
+    return render(request, Path('tables/tables_practise_alternative.html'), context)
 
 
 class ReportView(TemplateView):
