@@ -28,24 +28,23 @@
                 
             }
             .main{
-                height:98%;
+                
             }
             .menu-grid{
                 display:grid;
-				grid-template-columns: auto auto auto auto;
+				grid-template-columns: auto auto auto;
                 font-size: 2rem;
                 margin-top: 2%;
-                margin-left:5%;
-                margin-right:5%;
+                margin-left:3%;
+                margin-right:3%;
             }
 
             .button{
                 background:transparent;
                 border-style:solid;
                 border-color:transparent;
-                height:min-content;
-                margin-left:3%;
-                margin-right:3%;
+                margin-left:2%;
+                margin-right:2%;
                 cursor:pointer;
             }
             .button:hover{
@@ -91,10 +90,11 @@
                 text-decoration: none;
                 
             } 
-            .specific-dropdown-content.specific-item:hover{
-                background-color: black;
-                color:white;
+            .specific-item:hover{
+                text-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px rgb(255, 134, 255), 0 0 40px fuchsia, 0 0 50px fuchsia, 0 0 60px cyan, 0 0 70px plum;
                 text-decoration: none;
+                cursor:pointer;
+                z-index: 1;
                 
             } 
             .content-div{
@@ -106,15 +106,20 @@
             .stats-grid{
                 background:transparent;
                 display:grid;
-				grid-template-columns: 25% 25% 25% 25%;
+				grid-template-columns: 20% 20% 20% 20% 20%;
 				height: min-content;
 				width: max-content;
                 text-align: center;
+                margin-top: 5%;
                 margin-bottom: 5%;
                 width:65vw;
             }
 
-            
+            .stats-item{
+                background:transparent;
+                margin-bottom: auto;
+                margin-top: auto;
+            }
 
             .question-div{
                 height:min-content;
@@ -153,6 +158,67 @@
                 animation:glow 1s ease-in-out infinite alternate;
                 transition:0.5s;
             }
+            .bottom-menu-container{
+               margin-top:15%;
+            }
+            .bottom-menu-div{
+                display:grid;
+                grid-template-columns: auto 15%;
+            }
+            .select-item-div{
+                display:grid;
+                grid-template-columns: auto auto 70%;
+            }
+            
+            .select-item-glowstick-container{
+                width:100px;
+                cursor:pointer;
+            }
+            .select-item-glowstick{
+                transform:rotate(20deg);
+                width:100px;
+                margin-top: auto;
+                margin-bottom: auto;
+                border-style:solid;
+                border-radius:5px;
+                border-width:2.5px;
+                transition:1s ease-in-out;
+                cursor:pointer;
+            }
+            .select-item-bug{
+                font-size:3rem;
+                background:transparent;
+                margin-top: auto;
+                margin-bottom: auto;
+                transition:1s ease-in-out;
+            }
+            
+            .select-item:hover{
+                transform:rotate(1080deg);
+                transition:1s ease-in-out;
+                cursor:pointer;
+                animation:glow 1s ease-in-out infinite alternate;
+            }
+            .select-item-glowstick-container:hover > .select-item-glowstick{
+                transform:rotate(1080deg);
+                transition:1s ease-in-out;
+                cursor:pointer;
+                animation:glow 1s ease-in-out infinite alternate;
+            }
+            .clear-screen-button{
+                font-size: 2.5rem;
+                width:max-content;
+                margin-top:auto;
+                margin-bottom:auto;
+            }
+
+            .active-item-glowstick{
+                box-Shadow:0 0 10px white, 0 0 20px white, 0 0 30px rgb(255, 134, 255), 0 0 40px fuchsia, 0 0 50px fuchsia, 0 0 60px cyan, 0 0 70px plum;
+            }
+
+            .active-item-bug{
+                text-shadow:0 0 10px #fff, 0 0 20px #fff, 0 0 30px cyan, 0 0 40px cyan, 0 0 50px fuchsia, 0 0 60px fuchsia, 0 0 70px fuchsia;
+            }
 
             @media only screen and (max-width: 990px) {
                 .submit-button-wrapper{
@@ -160,6 +226,9 @@
                     background:transparent;  
                 }
             }
+
+
+
 
             @media only screen and (max-width: 770px) {
                 .menu-grid{
@@ -172,15 +241,19 @@
                 }
                 .stats-grid{
                     display:grid;
+                    background:transparent;
                     grid-template-columns: auto;
                     height: min-content;
                     width: max-content;
                     text-align: center;
+                    margin-left:auto;
+                    margin-right:auto;
                     margin-bottom: 5%;
-                    width:65vw;
                 }  
             }
 
+
+            
             .yellow-glowstick{
                 background:yellow;
                 box-shadow: 0 0 30px 5px rgb(255, 255, 148),  /* inner white */
@@ -325,9 +398,9 @@ function setTableModeCookie(mode, table=null){
     <body>
         <div class = 'main'>
             <div class = 'menu-grid'>
-                <div id="random-button" class= 'button' title="Random times tables questions with glowsticks!" onclick="setTableModeCookie('r',null)">Random</div>
+                <div id="random-button" class= 'button' title="Random times tables questions with glowsticks!" onclick="setTableModeCookie('r',null)">Random Mode</div>
                 <div id="test-button" class= 'button' title="Serious times tables practice. Without glowsticks." onclick="setTableModeCookie('t',null)">Test Mode</div>
-                <div id="specific-button" class= 'button specific' title="Your choice of times tables with glowsticks.">Table Choice
+                <div id="specific-button" class= 'button specific' title="Your choice of times tables with glowsticks.">Choose a table
                     <div class="specific-dropdown-content">
                         <div class="specific-item" onclick="window.alert('1 x table? Really?')">1 x table</div>
                         <div class="specific-item" onclick="setTableModeCookie('s',2)">2 x table</div>
@@ -343,16 +416,20 @@ function setTableModeCookie(mode, table=null){
                         <div class="specific-item" onclick="setTableModeCookie('s',12)">12 x table</div>
                     </div>
                 </div>
-                
                 <!--<div class= 'button' onclick="getReport()">Report</div>-->
+                <!--
                 <div class="utility-buttons">
                     <div class= 'button' title='Reset all statistics' onclick="reset()">Reset Stats</div>
                     <div class= 'button' title='Make room for more glowsticks' onclick="clearItems()">Clear Glowsticks</div>
                 </div>
+                -->
             </div>
             <div class="content-div">
                 {% block content %}
                 {% endblock %}
+            </div>
+
+            <div class = "footer">
             </div>
         </div>
     </body>

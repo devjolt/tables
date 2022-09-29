@@ -49,6 +49,8 @@ if (getCookie("itemType") != ''){//if cookie exists
     var itemType = 'glowstick'
 }
 
+
+
 if (getCookie(itemType) != ''){//if cookie exists
     var itemDictStr = getCookie(itemType); // get the string of the dictionary
     itemDict = JSON.parse(itemDictStr) // convert to a dictionary
@@ -58,6 +60,10 @@ if (getCookie(itemType) != ''){//if cookie exists
 console.log(Object.keys(itemDict).length,itemDict) // show length of dictionary and dictionary itself
 
 if (tableMode!='t'){
+
+
+
+
     if(Object.keys(itemDict).length == 0){
         var highestItemId = 0
     }else{
@@ -140,6 +146,8 @@ function crack(){
             itemDict[this.id] = [thisInnerItem.classList.value,thisGlowstickArray[1],thisGlowstickArray[2],thisGlowstickArray[3]] // create new array with color
         }
     }else if(itemType=='glowstick'){ 
+
+        var thisItemClassList = thisItem.classList
         if (thisGlowstickArray[0]==thisItemClassList){
             var color = colors[Math.floor(Math.random()*colors.length)] // choose color
             thisItem.classList.remove('uncracked-'+itemType)
@@ -197,22 +205,22 @@ function getCookie(cname) {
 <div class = ''>
     <div class = 'dash-div'>
         <div class='stats-grid'>
-            <!--<div class='reset button' onclick=reset()>Reset stats</div>-->
-            <div class = 'timer'>
-                <span id="minutes"></span>:<span id="seconds"></span>
+            <div class='reset button' onclick=reset()>Reset stats -></div>
+            <div class = 'timer' style="background:transparent">
+                <span id="minutes" style="background:transparent"></span>:<span id="seconds" style="background:transparent"></span>
             </div>
-            <div class='stats-item'>
-                <div class = 'ratio'>
+            <div class='stats-item' style="background:transparent">
+                <div class = 'ratio' style="background:transparent">
                     <span id="correct"></span>/<span id="total"></span> correct
                 </div>
             </div>
-            <div class='stats-item'>
-                <div class = 'percent'>
+            <div class='stats-item' style="background:transparent">
+                <div class = 'percent' style="background:transparent">
                     <span id="percent"></span> %
                 </div>
             </div>
-            <div class='stats-item'>
-                <div class = 'speed'>
+            <div class='stats-item' style="background:transparent">
+                <div class = 'speed' style="background:transparent">
                     <span id="speed"></span> seconds / mark
                 </div>
             </div>
@@ -235,9 +243,33 @@ function getCookie(cname) {
             <div class='submit' onclick=markQuestion()>Submit</div>
         </div>
     </div>
+    <div class = 'bottom-menu-container'>
+        <div class = 'bottom-menu-div'>
+            <div class="select-item-div">
+                <div  class='select-item-glowstick-container' onclick="selectItem('glowstick')"><div  id='glowstick'class="select-item-glowstick" onclick="selectItem('glowstick')" title="Glowsticks"></div></div>
+                <div id='bug' class="select-item select-item-bug" onclick="selectItem('bug')" title="Bugs"><i class='bi bi-bug-fill'></i></div>
+            </div>
+            <div class = 'clear-screen-button button' onclick="clearItems()">Clear screen</div>
+        </div>
+    </div>
+    
 </div>
 
+
 <script>
+
+if (itemType=='bug'){
+    var element = document.getElementById(itemType)
+    element.style.textShadow= "0 0 10px #fff, 0 0 20px #fff, 0 0 30px cyan, 0 0 40px cyan, 0 0 50px fuchsia, 0 0 60px fuchsia, 0 0 70px fuchsia"
+    element.classList.add('active-item-bug')
+    document.getElementById('glowstick').classList.remove('active-item-glowstick')
+
+}else if (itemType=='glowstick'){
+    var element = document.getElementById(itemType)
+    element.style.boxShadow= "0 0 10px white, 0 0 20px white, 0 0 30px rgb(255, 134, 255), 0 0 40px fuchsia, 0 0 50px fuchsia, 0 0 60px cyan, 0 0 70px plum"
+    element.classList.add('active-item-glowstick')
+    document.getElementById('bug').classList.remove('active-item-bug')
+}
 
 function randomIntFromInterval(min, max) { // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min)
@@ -505,6 +537,20 @@ function addItem(){
 
 function updateItemCookie(){
     document.cookie = itemType+"="+JSON.stringify(itemDict)
+}
+
+function selectItem(itemStr){
+    let itemArray = ['bug', 'glowstick']
+    document.cookie = 'itemType='+itemStr
+    /*for (const item in itemArray)(
+        if (itemArray[item]==itemStr){
+
+            document.getElementsByClassName(itemStr).style.
+        }
+    )    */
+    
+    
+    clearItems()
 }
 
 function clearItems(){
