@@ -362,12 +362,15 @@ function setTableModeCookie(mode, table=null){
     if(mode=='s'){
         document.cookie = "tableMode=s,"+table
         window.location.replace('/tables/'+ table);
+        clearItems()
     }else{
         if(mode=='r'){
             document.cookie = "tableMode=r,"+table
+            clearItems()
         }else if(mode=='t'){
             document.cookie = "tableMode=t,"+table
             reset()
+            clearItems()
         }
         window.location.replace('/tables/');
     }
