@@ -11,10 +11,20 @@
 // add help animations
 // toggle show stats?
 
-
 //Cookies dealing with time
 console.log(getCookie("time"));
 var start = Date.now()
+
+if (getCookie("tutorial") != ''){//if cookie for timing exists
+    var tutorial = getCookie('tutorial').split(',');//use that as value from which to count up
+    var tutorial1 = tutorial[0];
+    var tutorial2 = tutorial[1];
+    var tutorial3 = tutorial[2];
+} else {
+    var tutorial1 = 'true';
+    var tutorial2 = 'true';
+    var tutorial3 = 'true';
+}
 
 if (getCookie("time") != ''){//if cookie for timing exists
     var sec = Number(getCookie('time'));//use that as value from which to count up
@@ -203,6 +213,7 @@ function getCookie(cname) {
 </script>
 
 <div class = ''>
+    
     <div class = 'dash-div'>
         <div class='stats-grid'>
             <div class='reset button' onclick=reset()>Reset stats -></div>
@@ -243,18 +254,30 @@ function getCookie(cname) {
             <div class='submit' onclick=markQuestion()>Submit</div>
         </div>
     </div>
+
     <div class = 'bottom-menu-container'>
         <div class = 'bottom-menu-div'>
             <div class="select-item-div">
                 <div  class='select-item-glowstick-container' onclick="selectItem('glowstick')"><div  id='glowstick'class="select-item-glowstick" onclick="selectItem('glowstick')" title="Glowsticks"></div></div>
                 <div id='bug' class="select-item select-item-bug" onclick="selectItem('bug')" title="Bugs"><i class='bi bi-bug-fill'></i></div>
             </div>
-            <div class = 'clear-screen-button button' onclick="clearItems()">Clear screen</div>
+            <div class = 'clear-screen-button button' onclick="clearItems()" title="Make space for more glow!">Clear screen</div>
         </div>
     </div>
+
+    <div id="modal1" class="modal">
+        <div class="modal-content">Choose between Random, Test Mode or choose a table to practise<br>Note: There is no glow in test mode!</div>
+    </div>
+    <div id="modal2" class="modal">
+        <div class="modal-content">Answer a question correctly to get a glowstick and click to crack it!</div>
+    <div>
+    <div id="modal3" class="modal">
+        <div class="modal-content">Choose between glowsticks and glow-bugs</div>
+    </div>
+
     
 </div>
-
+</div>
 
 <script>
 
@@ -270,6 +293,19 @@ if (itemType=='bug'){
     element.classList.add('active-item-glowstick')
     document.getElementById('bug').classList.remove('active-item-bug')
 }
+
+if(tutorial1=='true'){
+    document.getElementById('modal1').style.display='block'
+}
+
+if(tutorial2=='true'){
+    document.getElementById('modal2').style.display='block'
+}
+
+if(tutorial3=='true'){
+    document.getElementById('modal3').style.display='block'
+}
+
 
 function randomIntFromInterval(min, max) { // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min)
@@ -322,7 +358,7 @@ if(tableMode=='s'){
  
 function setTableModeCookie(mode, table=null){
     // r = random, s = specific, t = test
-    
+    document.getElementById('modal1').style.display='none'
     if(mode=='s'){
         document.cookie = "tableMode=s,"+table
         window.location.replace('/tables/'+ table);
@@ -331,9 +367,12 @@ function setTableModeCookie(mode, table=null){
             document.cookie = "tableMode=r,"+table
         }else if(mode=='t'){
             document.cookie = "tableMode=t,"+table
+            reset()
         }
         window.location.replace('/tables/');
     }
+    tutorial1='false'
+    updateTutorialsCookie()
 }
 
 var answer = "{{answer}}"
@@ -401,6 +440,8 @@ function markQuestion(){
     updateTime()
     updateItemCookie()// update glowstickCookie
     processModuleCookieData('incorrect')
+    tutorial2 = 'false'
+    updateTutorialsCookie()
 }
 
 //populate dash
@@ -542,13 +583,14 @@ function updateItemCookie(){
 function selectItem(itemStr){
     let itemArray = ['bug', 'glowstick']
     document.cookie = 'itemType='+itemStr
+    tutorial3='false'
+    updateTutorialsCookie()
     /*for (const item in itemArray)(
         if (itemArray[item]==itemStr){
 
             document.getElementsByClassName(itemStr).style.
         }
     )    */
-    
     
     clearItems()
 }
@@ -563,6 +605,9 @@ function getReport(){
     window.location.replace('/tables/report/');
 }
 
+function updateTutorialsCookie(){
+    document.cookie='tutorial='+tutorial1+','+tutorial2+','+tutorial3
+}
 
 function processModuleCookieData(correctIncorrect){
 

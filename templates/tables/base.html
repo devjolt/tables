@@ -25,10 +25,18 @@
             html{
             }
             body{
-                
             }
             .main{
-                
+            }
+            .footer{
+                font-size: 0.8rem;
+                background:transparent;
+                padding-top: 10px;
+                padding-bottom: 0px;
+                position:fixed;
+                bottom:0;
+                width:100%;
+                text-align: center;
             }
             .menu-grid{
                 display:grid;
@@ -38,7 +46,6 @@
                 margin-left:3%;
                 margin-right:3%;
             }
-
             .button{
                 background:transparent;
                 border-style:solid;
@@ -186,8 +193,8 @@
                 border-style:solid;
                 border-radius:5px;
                 border-width:2.5px;
-                transition:1s ease-in-out;
                 cursor:pointer;
+                transition:1s ease-in-out;
             }
             .select-item-bug{
                 font-size:3rem;
@@ -414,14 +421,54 @@
                     margin-top:40px;
                     margin-bottom:40px;
                 }          
+            }
+
+            #modal1{
+                display: none; /* Hidden by default */
+                position: fixed; /* Stay in place */
+                top: 10%;
+            }
+            #modal2{
+                display: none;
+                position: fixed; /* Stay in place */
+                left: 60%;
+                top: 45%;
+            }
+            #modal3{
+                display: none;
+                position: fixed; /* Stay in place */
+                left: 0%;
+                top: 65%;
+            }
+            .modal{
+                z-index: 1; /* Sit on top */
+                margin:10px; /* Location of the box */
+                overflow: auto; /* Enable scroll if needed */
+                background:transparent;
                 
-
-
-
+            }
+            .modal-content{
+                position: relative;
+                font-size:1.5rem;
+                color:black;
+                background-color: #fefefe;
+                margin: auto;
+                padding: 0;
+                border: 1px solid #888;
+                border-radius: 5px;
+                width: 80%;
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+                -webkit-animation-name: animatetop;
+                -webkit-animation-duration: 0.4s;
+                animation-name: animatetop;
+                animation-duration: 0.4s
+            }
+            @keyframes animatetop {
+                from {top:-300px; opacity:0}
+                to {top:0; opacity:1}
             }
 
 
-            
         </style>
     </head>
 
@@ -471,14 +518,15 @@ function setTableModeCookie(mode, table=null){
                 {% block content %}
                 {% endblock %}
             </div>
-
-            <div class = "footer">
-            </div>
+<!--
+            <p class="footer">
+                For Esther, Caleb and anyone else who wants more glow in their maths!<br>
+                &copy; Daddy 2022
+            </p>
+-->
         </div>
+        
+        
     </body>
+    
 </html>
-
-
-<script>
-
-</script>
