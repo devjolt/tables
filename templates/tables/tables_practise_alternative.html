@@ -360,13 +360,16 @@ function setTableModeCookie(mode, table=null){
     // r = random, s = specific, t = test
     document.getElementById('modal1').style.display='none'
     if(mode=='s'){
+        
         document.cookie = "tableMode=s,"+table
-        window.location.replace('/tables/'+ table);
         clearItems()
+        window.location.replace('/tables/'+ table);
+        
     }else{
         if(mode=='r'){
-            document.cookie = "tableMode=r,"+table
             clearItems()
+            document.cookie = "tableMode=r,"+table
+            
         }else if(mode=='t'){
             document.cookie = "tableMode=t,"+table
             reset()
